@@ -19,27 +19,28 @@
       <input type="text" class="form-control" v-model.lazy="motto" placeholder="v-model.lazy" />
     </form>
     <a href="/pages/counter/main" class="counter">去往Vuex示例页面</a>
+    <a href="/pages/douban/main" class="counter">去往豆瓣页面</a>
   </div>
 </template>
 
 <script>
-import card from '@/components/card'
-import Fly from 'flyio/dist/npm/wx'
-const fly = new Fly()
+import card from '@/components/card';
+import Fly from 'flyio/dist/npm/wx';
+const fly = new Fly();
 export default {
   data () {
     return {
       motto: 'Hello World',
       userInfo: {}
-    }
+    };
   },
   components: {
     card
   },
   methods: {
     bindViewTap () {
-      const url = '../logs/main'
-      wx.navigateTo({ url })
+      const url = '../logs/main';
+      wx.navigateTo({ url });
     },
     getUserInfo () {
       // 调用登录接口
@@ -47,26 +48,26 @@ export default {
         success: () => {
           wx.getUserInfo({
             success: (res) => {
-              this.userInfo = res.userInfo
+              this.userInfo = res.userInfo;
             }
-          })
+          });
         }
-      })
+      });
     },
     clickHandle (msg, ev) {
-      console.log('clickHandle:', msg, ev)
+      console.log('clickHandle:', msg, ev);
     }
   },
   created () {
     // 调用应用实例的方法获取全局数据
-    this.getUserInfo()
+    this.getUserInfo();
   },
   mounted () {
     fly.get('https://www.apiopen.top/weatherApi?city=成都').then(function (res) {
-      console.log(res)
-    })
+      console.log(res);
+    });
   }
-}
+};
 </script>
 
 <style scoped>

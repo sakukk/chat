@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import { formatTime } from '@/utils/index'
-import card from '@/components/card'
+import { formatTime } from '@/utils/index';
+import card from '@/components/card';
 
 export default {
   components: {
@@ -20,14 +20,14 @@ export default {
   data () {
     return {
       logs: []
-    }
+    };
   },
 
   created () {
-    const logs = (wx.getStorageSync('logs') || [])
-    this.logs = logs.map(log => formatTime(new Date(log)))
+    const logs = (wx.getStorageSync('logs') || []);
+    this.logs = logs.map(log => formatTime(new Date(log)));
   }
-}
+};
 </script>
 
 <style>

@@ -12,23 +12,38 @@
 
 <script>
 // Use Vuex
-import store from './store'
+import store from './store';
 
 export default {
   computed: {
     count () {
-      return store.state.count
+      return store.state.count;
     }
   },
   methods: {
     increment () {
-      store.commit('increment')
+      store.commit('increment');
     },
     decrement () {
-      store.commit('decrement')
+      store.commit('decrement');
     }
+  },
+  mounted () {
+    wx.getLocation({
+      type: 'wgs84',
+      success (res) {
+        const latitude = res.latitude;
+        const longitude = res.longitude;
+        // wx.openLocation({
+        //   latitude,
+        //   longitude,
+        //   scale: 18
+        // })
+        console.log(latitude, longitude);
+      }
+    });
   }
-}
+};
 </script>
 
 <style>
