@@ -6,7 +6,7 @@
         <i-avatar :src="item.images.small" size="large" shape="square">A</i-avatar>
       </i-cell>
     </i-cell-group>
-    <i-load-more :loading="loading"></i-load-more>
+    <i-load-more :loading="loading" :tip="tip" v-on:click="getFilms"></i-load-more>
   </div>
 </template>
 
@@ -16,32 +16,35 @@ export default {
   name: 'index',
   data () {
     return {
-      currentIndex: 0,
+      start: 0,
+      pageSize: 10,
       list: [],
       title: '',
-      loading: false
+      loading: false,
+      tip: '',
+      total: ''
     };
   },
   methods: {
     getFilms () {
       this.loading = true;
-      dbfly.get('https://douban.uieee.com/v2/movie/top250')
+      this.tip = '';
+      dbfly.get(`https://douban.uieee.com/v2/movie/top250?start=${this.start}&count=${this.pageSize}`)
         .then(res => {
           if (res) {
             let {count, start, subjects, title, total} = res;
             console.log(res);
-            console.log(count);
-            console.log(start);
-            console.log(subjects);
-            console.log(title);
-            console.log(total);
+            this.start = start + count;
             this.title = title;
-            this.list = subjects;
+            this.list = this.list.concat(subjects);
+            this.total = total;
+            this.tip = start >= total ? '暂无更多' : '加载更多';
           }
           this.loading = false;
         }).catch(err => {
           console.log(err);
           this.loading = false;
+          this.tip = '加载更多';
         });
     }
   },
