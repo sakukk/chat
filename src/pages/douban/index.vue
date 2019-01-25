@@ -41,8 +41,7 @@ export default {
             this.tip = start >= total ? '暂无更多' : '加载更多';
           }
           this.loading = false;
-        }).catch(err => {
-          console.log(err);
+        }).catch(() => {
           this.loading = false;
           this.tip = '加载更多';
         });
