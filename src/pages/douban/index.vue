@@ -2,8 +2,14 @@
   <div class="counter-warp">
     <p style="text-align: center">{{title}}</p>
     <i-cell-group>
-      <i-cell v-for="(item, index) in list" :key="index" :title="item.title">
-        <i-avatar :src="item.images.small" size="large" shape="square">A</i-avatar>
+      <i-cell v-for="(item, index) in list" :key="index" is-link>
+        <!--<i-avatar :src="item.images.small" size="large" shape="square">A</i-avatar>-->
+        <film-card :imgSrc="item.images.small"
+                   :rate="item.rating.average"
+                   :filmType="item.genres"
+                   :duration="item.durations"
+                   :actors="item.casts"
+                   :name="item.title"></film-card>
       </i-cell>
     </i-cell-group>
     <i-load-more :loading="loading" :tip="tip" v-on:click="getFilms"></i-load-more>
@@ -12,8 +18,12 @@
 
 <script>
 import dbfly from '@/utils/dRequest';
+import FilmCard from '@/components/film-card';
 export default {
   name: 'index',
+  components: {
+    FilmCard
+  },
   data () {
     return {
       start: 0,
@@ -29,7 +39,7 @@ export default {
     getFilms () {
       this.loading = true;
       this.tip = '';
-      dbfly.get(`https://douban.uieee.com/v2/movie/top250?start=${this.start}&count=${this.pageSize}`)
+      dbfly.get(`https://douban.uieee.com/v2/movie/in_theaters?start=${this.start}&count=${this.pageSize}`)
         .then(res => {
           if (res) {
             let {count, start, subjects, title, total} = res;
