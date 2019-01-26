@@ -1,18 +1,24 @@
 <template>
   <div class="counter-warp">
-    <p style="text-align: center">{{title}}</p>
-    <i-cell-group>
-      <i-cell v-for="(item, index) in list" :key="index" is-link>
-        <!--<i-avatar :src="item.images.small" size="large" shape="square">A</i-avatar>-->
-        <film-card :imgSrc="item.images.small"
-                   :rate="item.rating.average"
-                   :filmType="item.genres"
-                   :duration="item.durations"
-                   :actors="item.casts"
-                   :name="item.title"></film-card>
-      </i-cell>
-    </i-cell-group>
-    <i-load-more :loading="loading" :tip="tip" v-on:click="getFilms"></i-load-more>
+    <i-sticky :scrollTop="scrollTop">
+      <i-sticky-item i-class="i-sticky-demo-title">
+        <p style="text-align: center" slot="title">{{title}}</p>
+        <i-cell-group slot="content">
+          <i-cell v-for="(item, index) in list" :key="index" is-link>
+            <!--<i-avatar :src="item.images.small" size="large" shape="square">A</i-avatar>-->
+            <film-card :imgSrc="item.images.small"
+                       :rate="item.rating.average"
+                       :filmType="item.genres"
+                       :duration="item.durations"
+                       :actors="item.casts"
+                       :name="item.title"></film-card>
+          </i-cell>
+          <i-cell v-on:click="getFilms">
+            <i-load-more :loading="loading" :tip="tip"></i-load-more>
+          </i-cell>
+        </i-cell-group>
+      </i-sticky-item>
+    </i-sticky>
   </div>
 </template>
 
@@ -32,7 +38,8 @@ export default {
       title: '',
       loading: false,
       tip: '',
-      total: ''
+      total: '',
+      scrollTop: 0
     };
   },
   methods: {
@@ -60,6 +67,9 @@ export default {
   },
   onShow () {
     this.getFilms();
+  },
+  onPageScroll: function (event) {
+    this.scrollTop = event.scrollTop;
   }
 };
 </script>
