@@ -5,10 +5,10 @@
     </div>
     <div class="film-detail">
       <p class="film-name">{{name}}</p>
-      <p>豆瓣评分： {{rate}}</p>
-      <p>类型：{{types}}</p>
-      <p>时长：{{filmDuration}}</p>
-      <p>演员：{{actorName}}</p>
+      <p v-show="!!rate">豆瓣评分: {{rate}}</p>
+      <p v-show="types.length > 0">类型: {{types}}</p>
+      <p v-show="filmDuration.length > 0">时长: {{filmDuration}}</p>
+      <p v-show="actorName.length > 0">演员: {{actorName}}</p>
     </div>
   </div>
 </template>
@@ -50,13 +50,13 @@
     },
     computed: {
       types () {
-        return this.filmType.join(',');
+        return this.filmType.join('/');
       },
       filmDuration () {
-        return this.duration.join(',');
+        return this.duration.join('/');
       },
       actorName () {
-        return this.actors.map(item => item.name).join(',');
+        return this.actors.map(item => item.name).join('/');
       }
     }
   };

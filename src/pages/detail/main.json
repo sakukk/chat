@@ -1,0 +1,13 @@
+{
+  "navigationBarTitleText": "电影详情",
+  "usingComponents": {
+    "i-cell-group": "../../../static/iview/cell-group/index",
+    "i-cell": "../../../static/iview/cell/index",
+    "i-avatar": "../../../static/iview/avatar/index",
+    "i-load-more": "../../../static/iview/load-more/index",
+    "i-sticky": "../../../static/iview/sticky/index",
+    "i-sticky-item": "../../../static/iview/sticky-item/index",
+    "i-progress": "../../../static/iview/progress/index",
+    "i-rate": "../../../static/iview/rate/index"
+  }
+}
