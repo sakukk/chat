@@ -4,7 +4,10 @@
       <i-sticky-item i-class="i-sticky-demo-title">
         <p style="text-align: center" slot="title">{{title}}</p>
         <i-cell-group slot="content">
-          <i-cell v-for="(item, index) in list" :key="index" is-link>
+          <i-cell v-for="(item, index) in list"
+                  :key="index"
+                  @click="getUrl(item.id)"
+                  is-link>
             <!--<i-avatar :src="item.images.small" size="large" shape="square">A</i-avatar>-->
             <film-card :imgSrc="item.images.small"
                        :rate="item.rating.average"
@@ -63,6 +66,10 @@ export default {
           this.loading = false;
           this.tip = '加载更多';
         });
+    },
+    getUrl (id) {
+      let url = `/pages/detail/main?id=${id}`;
+      wx.navigateTo({url});
     }
   },
   onShow () {

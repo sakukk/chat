@@ -3,7 +3,8 @@
     "pages/index/main",
     "pages/logs/main",
     "pages/counter/main",
-    "pages/douban/main"
+    "pages/douban/main",
+    "pages/detail/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
