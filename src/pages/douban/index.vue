@@ -54,7 +54,7 @@ export default {
         .then(res => {
           if (res) {
             let {count, start, subjects, title, total} = res;
-            console.log(res);
+            // console.log(res);
             this.start = start + count;
             this.title = title;
             this.list = this.list.concat(subjects);

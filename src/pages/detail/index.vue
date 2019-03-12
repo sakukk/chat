@@ -5,6 +5,12 @@
                :actors="casts"
                :name="title"></film-card>
 
+    <div class="cast-list">
+      <div class="cast-list-scroll">
+        <actor name="hello world"/>
+      </div>
+    </div>
+
     <div class="rating-info">
       <div class="left-part">
         {{averageRate}}
@@ -26,10 +32,12 @@
 <script>
   import dbfly from '@/utils/dRequest';
   import FilmCard from '@/components/film-card';
+  import Actor from '@/components/actor';
   export default {
     name: 'index',
     components: {
-      FilmCard
+      FilmCard,
+      Actor
     },
     data () {
       return {
@@ -50,7 +58,7 @@
     methods: {
       getdetail (id) {
         dbfly.get(`https://douban.uieee.com/v2/movie/subject/${id}`).then(res => {
-          // console.log(res);
+          console.log(res);
           if (res) {
             let {title, rating, images,
               pubdate, genres, casts} = res;
@@ -60,9 +68,9 @@
             this.pubDate = pubdate;
             this.genres = genres;
             this.casts = casts;
-            console.log(rating);
+            // console.log(rating);
             // console.log(pubdate);
-            // console.log(casts);
+            console.log(res.popular_comments);
           }
         });
       }
@@ -124,6 +132,20 @@
           font-size: 25rpx;
         }
       }
+    }
+  }
+
+  .cast-list {
+    width: 100%;
+    overflow: hidden;
+    height: 200rpx;
+
+    .cast-list-scroll {
+      width: 1000rpx;
+      background: aquamarine;
+      height: 230rpx;
+      overflow-y: hidden;
+      overflow-x: auto;
     }
   }
 </style>
