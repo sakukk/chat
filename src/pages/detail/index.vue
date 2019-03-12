@@ -4,14 +4,22 @@
                :filmType="genres"
                :actors="casts"
                :name="title"></film-card>
-    <i-cell-group>
-      <i-cell v-for="(item, index) in rating.details" :key="index">
-        <div class="rate-info">
-          <i-progress percent="25" :stroke-width="6"></i-progress>
-          <i-rate :value="index" :size="6"></i-rate>
+
+    <div class="rating-info">
+      <div class="left-part">
+        {{averageRate}}
+        {{totalRatingNum}} 参与
+      </div>
+      <div class="right-part">
+        <div class="ratings-on-weight" v-for="(item, index) in rating.details" :key="index">
+          <div>
+            <span>{{index}}星：</span>
+            <span>{{rateWeightArr[item]}}%</span>
+          </div>
+          <progress :percent="rateWeightArr[item]" max="100" backgroundColor="#fff"></progress>
         </div>
-      </i-cell>
-    </i-cell-group>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -42,7 +50,7 @@
     methods: {
       getdetail (id) {
         dbfly.get(`https://douban.uieee.com/v2/movie/subject/${id}`).then(res => {
-          console.log(res);
+          // console.log(res);
           if (res) {
             let {title, rating, images,
               pubdate, genres, casts} = res;
@@ -53,10 +61,37 @@
             this.genres = genres;
             this.casts = casts;
             console.log(rating);
-            console.log(pubdate);
-            console.log(casts);
+            // console.log(pubdate);
+            // console.log(casts);
           }
         });
+      }
+    },
+    computed: {
+      totalRatingNum () {
+        if (this.rating && this.rating.details) {
+          return Object.values(this.rating.details).reduce((previousValue, currentValue) => {
+            return currentValue + previousValue;
+          }, 0);
+        } else {
+          return '';
+        }
+      },
+      rateWeightArr () {
+        let result = {};
+        if (this.rating && this.rating.details) {
+          Object.values(this.rating.details).map(item => {
+            result[item] = Math.round((item / this.totalRatingNum) * 100);
+          });
+        }
+        return result;
+      },
+      averageRate () {
+        if (this.rating) {
+          return this.rating.average;
+        } else {
+          return 0;
+        }
       }
     }
   };
@@ -66,14 +101,29 @@
   .film-detail {
     padding: 20rpx;
   }
-  .rate-info {
+  .rating-info {
     width: 100%;
     display: inline-flex;
     align-items: center;
     justify-content: space-around;
-    ._i-progress {
-      width: 100%;
-      flex: 2;
+    height: 300rpx;
+    .left-part {
+      width: 30%;
+      height: inherit;
+      background: aqua;
+    }
+    .right-part {
+      width: 70%;
+      height: inherit;
+      .ratings-on-weight {
+        width: 100%;
+        /*display: inline-block;*/
+        /*justify-content: start;*/
+        /*align-items: center;*/
+        span {
+          font-size: 25rpx;
+        }
+      }
     }
   }
 </style>

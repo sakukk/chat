@@ -42,14 +42,15 @@ export default {
       loading: false,
       tip: '',
       total: '',
-      scrollTop: 0
+      scrollTop: 0,
+      city: '北京'
     };
   },
   methods: {
     getFilms () {
       this.loading = true;
       this.tip = '';
-      dbfly.get(`https://douban.uieee.com/v2/movie/in_theaters?start=${this.start}&count=${this.pageSize}`)
+      dbfly.get(`https://douban.uieee.com/v2/movie/in_theaters?city=${this.city}&start=${this.start}&count=${this.pageSize}`)
         .then(res => {
           if (res) {
             let {count, start, subjects, title, total} = res;
